@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Calendar, ExternalLink, Trophy, Info, Users, GraduationCap, SwatchBook } from 'lucide-react';
+import { Search, MapPin, Calendar, ExternalLink, Trophy, Info, Users, GraduationCap, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import eventsData from './data/events.json';
 import './App.css';
@@ -27,8 +27,8 @@ const Hero = ({ searchTerm, setSearchTerm }) => (
       transition={{ duration: 0.6 }}
       className="hero-content"
     >
-      <h1>주짓수의 모든 일정 <br /><span>한곳에 모았습니다</span></h1>
-      <p>대회, 세미나, 그리고 합동훈련 정보를 가장 빠르게 확인하세요.</p>
+      <h1>검증된 주짓수 일정 <br /><span>신뢰할 수 있는 정보만</span></h1>
+      <p>공식 소스를 바탕으로 교차 검증된 대회, 세미나 정보를 제공합니다.</p>
       
       <div className="search-container glass">
         <Search className="search-icon" />
@@ -72,9 +72,16 @@ const EventCard = ({ event }) => {
       whileHover={{ y: -5, boxShadow: '0 20px 25px -5px rgba(0,0,0,0.2)' }}
     >
       <div className="card-header">
-        <span className={`badge ${getBadgeColor()}`}>
-          {getTypeText()}
-        </span>
+        <div className="badge-group">
+          <span className={`badge ${getBadgeColor()}`}>
+            {getTypeText()}
+          </span>
+          {event.verified && (
+            <span className="verified-badge" title="공식 소스 확인됨">
+              <CheckCircle size={12} /> 검증됨
+            </span>
+          )}
+        </div>
         <span className="region-badge">{event.region}</span>
       </div>
       <h3>{event.title}</h3>
@@ -107,9 +114,16 @@ const EventCard = ({ event }) => {
         </div>
       </div>
       
-      <a href={event.link} target="_blank" rel="noopener noreferrer" className={`apply-btn ${getBadgeColor()}`}>
-        {event.type === 'competition' ? '참가 신청하기' : '공지 확인하기'} <ExternalLink size={14} />
-      </a>
+      <div className="card-actions">
+        <a href={event.link} target="_blank" rel="noopener noreferrer" className={`apply-btn ${getBadgeColor()}`}>
+          {event.type === 'competition' ? '참가 신청하기' : '공지 확인하기'} <ExternalLink size={14} />
+        </a>
+        {event.sourceUrl && (
+          <a href={event.sourceUrl} target="_blank" rel="noopener noreferrer" className="source-link">
+            공식 공고 보기
+          </a>
+        )}
+      </div>
     </motion.div>
   );
 };
@@ -123,18 +137,18 @@ const GuideSection = () => (
     <div className="guide-grid">
       <div className="guide-card glass">
         <div className="step-num">01</div>
-        <h4>대회 준비</h4>
-        <p>체급 계체 및 정해진 룰(IBJJF, ADCC 등)을 숙지하고 도복 상태를 점검하세요.</p>
+        <h4>정보 검증 원칙</h4>
+        <p>본 사이트는 공식 협회 및 단체의 공고를 바탕으로 교차 검증된 정보만 제공합니다.</p>
       </div>
       <div className="guide-card glass">
         <div className="step-num">02</div>
-        <h4>세미나 참여</h4>
-        <p>유명 인스트럭터의 기술 정수를 배우고 질문할 기회를 놓치지 마세요. 필기도구 필수!</p>
+        <h4>대회 및 세미나</h4>
+        <p>확정된 일정만 수록하며, 변경 사항 발생 시 공식 출처 링크를 통해 재확인을 권장합니다.</p>
       </div>
       <div className="guide-card glass">
         <div className="step-num">03</div>
-        <h4>오픈매트 매너</h4>
-        <p>상대방에 대한 존중과 청결한 도복 상태를 유지하며 다양한 파트너와 교류하세요.</p>
+        <h4>데이터 신뢰성</h4>
+        <p>불분명한 정보는 과감히 제외하며, 수시로 데이터를 업데이트하여 정확성을 유지합니다.</p>
       </div>
     </div>
   </section>
@@ -175,7 +189,6 @@ function App() {
       
       <main className="container">
         <section id="schedule" className="schedule-section">
-          {/* Main Category Tabs */}
           <div className="category-tabs glass">
             {categories.map(cat => (
               <button 
@@ -183,7 +196,7 @@ function App() {
                 className={activeCategory === cat.id ? 'active' : ''}
                 onClick={() => {
                   setActiveCategory(cat.id);
-                  setActiveRegion('All'); // Reset region on category change
+                  setActiveRegion('All');
                 }}
               >
                 <cat.icon size={18} />
@@ -192,7 +205,6 @@ function App() {
             ))}
           </div>
 
-          {/* Region Filters */}
           <div className="filter-bar">
             {regions.map(region => (
               <button 
@@ -217,7 +229,7 @@ function App() {
                   animate={{ opacity: 1 }} 
                   className="no-results"
                 >
-                  해당 조건의 일정이 아직 없습니다.
+                  현재 검증된 일정이 없습니다.
                 </motion.div>
               )}
             </AnimatePresence>
@@ -228,7 +240,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 JIU-JITSU KOREA HUB. 모든 행사 정보는 주최측에 의해 변경될 수 있습니다.</p>
+        <p>© 2026 JIU-JITSU KOREA HUB | 데이터 최종 검증일: 2026-04-16</p>
       </footer>
     </div>
   );
