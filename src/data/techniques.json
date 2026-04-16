@@ -3,8 +3,8 @@
     "id": 1,
     "title": "트라이앵글 초크 (Triangle Choke)",
     "category": "Submission",
-    "instructor": "김관장",
-    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "instructor": "임경일 관장님",
+    "url": "https://youtu.be/ALOUzYatwZ4?si=4xSXf2V6IQNad2dz",
     "thumb": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     "description": "클로즈 가드에서 시도하는 가장 기초적이면서 강력한 서브미션입니다."
   },
@@ -12,8 +12,8 @@
     "id": 2,
     "title": "암바 (Armbar from Guard)",
     "category": "Submission",
-    "instructor": "이관장",
-    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "instructor": "임경일 관장님",
+    "url": "https://youtu.be/JNKdYFNDH0Y?si=lZN50lZrBzuDQvMV",
     "thumb": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     "description": "상대방의 팔꿈치 관절을 제압하는 필수 기술입니다."
   },
@@ -21,8 +21,8 @@
     "id": 3,
     "title": "토레안도 패스 (Toreando Pass)",
     "category": "Guard Pass",
-    "instructor": "최사범",
-    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "instructor": "임경일 관장님",
+    "url": "https://youtu.be/Qf_XIZCw8Dk?si=5294fZFZNazaBtQU",
     "thumb": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     "description": "상대의 바지를 잡아 제압한 후 측면으로 이동하는 속도감 있는 패스입니다."
   },
@@ -30,18 +30,18 @@
     "id": 4,
     "title": "데라히바 가드 (De La Riva Guard)",
     "category": "Guard",
-    "instructor": "박관장",
-    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "instructor": "임경일 관장님",
+    "url": "https://www.youtube.com/watch?v=RrQFD-68Khw",
     "thumb": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     "description": "한쪽 다리로 상대의 오금뒤를 감싸고 다른 발로 골반을 밀어 균형을 무너뜨리는 가드입니다."
   },
   {
     "id": 5,
-    "title": "니컷 패스 (Knee Cut Pass)",
+    "title": "오버언더 패스 (Over Under Pass)",
     "category": "Guard Pass",
-    "instructor": "김관장",
-    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "instructor": "임경일 관장님",
+    "url": "https://youtu.be/Ae-420lALhE?si=3XXefs5Ufs2j5LQC",
     "thumb": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    "description": "무릎을 비스듬히 찔러 넣어 상대의 가드를 뚫는 대표적인 패스 기술입니다."
+    "description": "상대의 다리를 언더훅으로 감싸고 다른쪽 다리로 오버훅을 걸어 상대의 중심을 무너뜨리는 패스입니다"
   }
 ]

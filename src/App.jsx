@@ -124,6 +124,33 @@ const EventCard = ({ event }) => {
   );
 };
 
+const GuideSection = () => (
+  <section id="guide" className="guide-section">
+    <div className="section-header">
+      <Info className="header-icon" />
+      <h2>주짓수 이용 가이드</h2>
+    </div>
+    <div className="guide-grid">
+      <div className="guide-card glass">
+        <div className="step-num">01</div>
+        <h4>정보 검증 원칙</h4>
+        <p>본 사이트는 공식 협회 및 단체의 공고를 바탕으로 교차 검증된 정보만 제공합니다.</p>
+      </div>
+      <div className="guide-card glass">
+        <div className="step-num">02</div>
+        <h4>대회 및 세미나</h4>
+        <p>확정된 일정만 수록하며, 변경 사항 발생 시 공식 출처 링크를 통해 재확인을 권장합니다.</p>
+      </div>
+      <div className="guide-card glass">
+        <div className="step-num">03</div>
+        <h4>기술 영상 활용</h4>
+        <p>서브미션부터 가드까지, 검증된 기술 영상을 통해 언제 어디서든 학습할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+);
+
+
 const TechniqueCard = ({ tech, onPlay }) => (
   <motion.div 
     layout
