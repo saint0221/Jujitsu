@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Calendar, ExternalLink, Trophy, Info, Users, GraduationCap, CheckCircle } from 'lucide-react';
+import { Search, MapPin, Calendar, ExternalLink, Trophy, Info, Users, GraduationCap, CheckCircle, Play, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import eventsData from './data/events.json';
+import techniquesData from './data/techniques.json';
 import './App.css';
 
-const Navbar = () => (
+const Navbar = ({ activeView, setActiveView }) => (
   <nav className="navbar glass">
     <div className="nav-content">
-      <div className="logo">
+      <div className="logo" onClick={() => setActiveView('schedule')} style={{ cursor: 'pointer' }}>
         <Trophy className="logo-icon" />
         <span>JIU-JITSU KOREA HUB</span>
       </div>
       <div className="nav-links">
-        <a href="#schedule">일정 확인</a>
+        <button className={activeView === 'schedule' ? 'active' : ''} onClick={() => setActiveView('schedule')}>대회/세미나</button>
+        <button className={activeView === 'techniques' ? 'active' : ''} onClick={() => setActiveView('techniques')}>기술 영상</button>
         <a href="#guide">가이드</a>
       </div>
     </div>
   </nav>
 );
 
-const Hero = ({ searchTerm, setSearchTerm }) => (
+const Hero = ({ activeView, searchTerm, setSearchTerm }) => (
   <header className="hero">
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -27,14 +29,14 @@ const Hero = ({ searchTerm, setSearchTerm }) => (
       transition={{ duration: 0.6 }}
       className="hero-content"
     >
-      <h1>검증된 주짓수 일정 <br /><span>신뢰할 수 있는 정보만</span></h1>
-      <p>공식 소스를 바탕으로 교차 검증된 대회, 세미나 정보를 제공합니다.</p>
+      <h1>{activeView === 'schedule' ? '검증된 주짓수 일정' : '주짓수 기술 도서관'}<br /><span>{activeView === 'schedule' ? '신뢰할 수 있는 정보만' : '언제 어디서나 학습하세요'}</span></h1>
+      <p>{activeView === 'schedule' ? '공식 소스를 바탕으로 교차 검증된 대회, 세미나 정보를 제공합니다.' : '서브미션부터 가드까지, 카테고리별 전문 교육 영상을 만나보세요.'}</p>
       
       <div className="search-container glass">
         <Search className="search-icon" />
         <input 
           type="text" 
-          placeholder="이벤트명, 강사, 장소를 검색해보세요" 
+          placeholder={activeView === 'schedule' ? "이벤트명, 장소를 검색해보세요" : "기술명이나 강사를 검색해보세요"}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -94,12 +96,6 @@ const EventCard = ({ event }) => {
             <span className={`belt-badge ${event.belt.toLowerCase()}`}>{event.belt} Belt</span>
           </div>
         )}
-        {event.host && (
-          <div className="info-item">
-            <Users className="icon" size={16} />
-            <span>Host: {event.host}</span>
-          </div>
-        )}
         <div className="info-item">
           <Calendar className="icon" size={16} />
           <span>{event.date}</span>
@@ -128,116 +124,182 @@ const EventCard = ({ event }) => {
   );
 };
 
-const GuideSection = () => (
-  <section id="guide" className="guide-section">
-    <div className="section-header">
-      <Info className="header-icon" />
-      <h2>주짓수 이용 가이드</h2>
-    </div>
-    <div className="guide-grid">
-      <div className="guide-card glass">
-        <div className="step-num">01</div>
-        <h4>정보 검증 원칙</h4>
-        <p>본 사이트는 공식 협회 및 단체의 공고를 바탕으로 교차 검증된 정보만 제공합니다.</p>
-      </div>
-      <div className="guide-card glass">
-        <div className="step-num">02</div>
-        <h4>대회 및 세미나</h4>
-        <p>확정된 일정만 수록하며, 변경 사항 발생 시 공식 출처 링크를 통해 재확인을 권장합니다.</p>
-      </div>
-      <div className="guide-card glass">
-        <div className="step-num">03</div>
-        <h4>데이터 신뢰성</h4>
-        <p>불분명한 정보는 과감히 제외하며, 수시로 데이터를 업데이트하여 정확성을 유지합니다.</p>
+const TechniqueCard = ({ tech, onPlay }) => (
+  <motion.div 
+    layout
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    className="tech-card glass"
+    whileHover={{ y: -5 }}
+  >
+    <div className="tech-thumb" onClick={() => onPlay(tech)}>
+      <img src={tech.thumb} alt={tech.title} />
+      <div className="play-overlay">
+        <Play fill="white" size={48} />
       </div>
     </div>
-  </section>
+    <div className="tech-info">
+      <h3>{tech.title}</h3>
+      <div className="tech-meta">
+        <span className="instructor">{tech.instructor} 인스트럭터</span>
+        <span className="tech-category-badge">{tech.category}</span>
+      </div>
+      <p>{tech.description}</p>
+    </div>
+  </motion.div>
+);
+
+const VideoModal = ({ video, onClose }) => (
+  <motion.div 
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="video-modal-overlay"
+    onClick={onClose}
+  >
+    <motion.div 
+      initial={{ scale: 0.9, y: 20 }}
+      animate={{ scale: 1, y: 0 }}
+      exit={{ scale: 0.9, y: 20 }}
+      className="video-modal-content glass"
+      onClick={e => e.stopPropagation()}
+    >
+      <button className="close-btn" onClick={onClose}><X /></button>
+      <div className="video-wrapper">
+        <iframe 
+          src={video.url} 
+          title={video.title}
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+        ></iframe>
+      </div>
+      <div className="video-details">
+        <h2>{video.title}</h2>
+        <p className="instructor">{video.instructor} 인스트럭터</p>
+        <p className="description">{video.description}</p>
+      </div>
+    </motion.div>
+  </motion.div>
 );
 
 function App() {
+  const [activeView, setActiveView] = useState('schedule');
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState('competition');
+  
+  // Schedule States
+  const [activeEventCategory, setActiveEventCategory] = useState('competition');
   const [activeRegion, setActiveRegion] = useState('All');
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  
+  // Technique States
+  const [activeTechCategory, setActiveTechCategory] = useState('Submission');
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
-  const categories = [
+  const eventCategories = [
     { id: 'competition', label: '대회', icon: Trophy },
     { id: 'seminar', label: '세미나', icon: GraduationCap },
     { id: 'openmat', label: '합동훈련', icon: Users }
   ];
 
+  const techCategories = ['Submission', 'Guard Pass', 'Guard'];
   const regions = ['All', 'Seoul', 'Gyeonggi', 'Incheon', 'Busan', 'Daejeon'];
 
-  useEffect(() => {
-    const results = eventsData.filter(event => {
-      const matchesCategory = event.type === activeCategory;
-      const matchesSearch = 
-        event.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        event.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (event.instructor && event.instructor.toLowerCase().includes(searchTerm.toLowerCase()));
-      const matchesRegion = activeRegion === 'All' || event.region === activeRegion;
-      
-      return matchesCategory && matchesSearch && matchesRegion;
-    });
-    setFilteredEvents(results);
-  }, [searchTerm, activeCategory, activeRegion]);
+  const filteredEvents = eventsData.filter(event => {
+    const matchesCategory = event.type === activeEventCategory;
+    const matchesSearch = 
+      event.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      event.organization.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRegion = activeRegion === 'All' || event.region === activeRegion;
+    return matchesCategory && matchesSearch && matchesRegion;
+  });
+
+  const filteredTechs = techniquesData.filter(tech => {
+    const matchesCategory = tech.category === activeTechCategory;
+    const matchesSearch = 
+      tech.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      tech.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="app">
-      <Navbar />
-      <Hero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Navbar activeView={activeView} setActiveView={setActiveView} />
+      <Hero activeView={activeView} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       
       <main className="container">
-        <section id="schedule" className="schedule-section">
-          <div className="category-tabs glass">
-            {categories.map(cat => (
-              <button 
-                key={cat.id}
-                className={activeCategory === cat.id ? 'active' : ''}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  setActiveRegion('All');
-                }}
-              >
-                <cat.icon size={18} />
-                <span>{cat.label}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="filter-bar">
-            {regions.map(region => (
-              <button 
-                key={region}
-                className={activeRegion === region ? 'active' : ''}
-                onClick={() => setActiveRegion(region)}
-              >
-                {region === 'All' ? '전체 지역' : region}
-              </button>
-            ))}
-          </div>
-          
-          <div className="schedule-grid">
-            <AnimatePresence mode='popLayout'>
-              {filteredEvents.length > 0 ? (
-                filteredEvents.map(event => (
-                  <EventCard key={event.id} event={event} />
-                ))
-              ) : (
-                <motion.div 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  className="no-results"
+        {activeView === 'schedule' ? (
+          <section id="schedule" className="schedule-section">
+            <div className="category-tabs glass">
+              {eventCategories.map(cat => (
+                <button 
+                  key={cat.id}
+                  className={activeEventCategory === cat.id ? 'active' : ''}
+                  onClick={() => setActiveEventCategory(cat.id)}
                 >
-                  현재 검증된 일정이 없습니다.
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </section>
+                  <cat.icon size={18} />
+                  <span>{cat.label}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="filter-bar">
+              {regions.map(region => (
+                <button 
+                  key={region}
+                  className={activeRegion === region ? 'active' : ''}
+                  onClick={() => setActiveRegion(region)}
+                >
+                  {region === 'All' ? '전체 지역' : region}
+                </button>
+              ))}
+            </div>
+            
+            <div className="schedule-grid">
+              <AnimatePresence mode='popLayout'>
+                {filteredEvents.length > 0 ? (
+                  filteredEvents.map(event => (
+                    <EventCard key={event.id} event={event} />
+                  ))
+                ) : (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="no-results">검증된 일정이 없습니다.</motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </section>
+        ) : (
+          <section id="techniques" className="tech-section">
+            <div className="tech-category-tabs glass">
+              {techCategories.map(cat => (
+                <button 
+                  key={cat}
+                  className={activeTechCategory === cat ? 'active' : ''}
+                  onClick={() => setActiveTechCategory(cat)}
+                >
+                  {cat === 'Submission' ? '서브미션' : cat === 'Guard Pass' ? '가드패스' : '가드'}
+                </button>
+              ))}
+            </div>
+            
+            <div className="tech-grid">
+              <AnimatePresence mode='popLayout'>
+                {filteredTechs.length > 0 ? (
+                  filteredTechs.map(tech => (
+                    <TechniqueCard key={tech.id} tech={tech} onPlay={setSelectedVideo} />
+                  ))
+                ) : (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="no-results">관련 기술 영상이 없습니다.</motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </section>
+        )}
 
         <GuideSection />
       </main>
+
+      <AnimatePresence>
+        {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
+      </AnimatePresence>
 
       <footer className="footer">
         <p>© 2026 JIU-JITSU KOREA HUB | 데이터 최종 검증일: 2026-04-16</p>
