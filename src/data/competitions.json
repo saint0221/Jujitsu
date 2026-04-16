@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "2026 제6회 대한주짓수회 회장기 선수권대회",
+    "date": "2026-05-09",
+    "location": "인천 남동체육관",
+    "organization": "대한주짓수회",
+    "link": "https://jjak.or.kr",
+    "category": "Official",
+    "region": "Incheon"
+  },
+  {
+    "id": 2,
+    "title": "리그로얄 2026 서울 오픈",
+    "date": "2026-05-24",
+    "location": "서울 중구구민회관",
+    "organization": "League Royale",
+    "link": "https://leagueroyale.co.kr",
+    "category": "Open",
+    "region": "Seoul"
+  },
+  {
+    "id": 3,
+    "title": "예거스컵 주짓수 챔피언십 - 경기",
+    "date": "2026-06-07",
+    "location": "수원 광교체육관",
+    "organization": "Jagers Cup",
+    "link": "https://heroesofsports.kr",
+    "category": "Open",
+    "region": "Gyeonggi"
+  },
+  {
+    "id": 4,
+    "title": "2026 스트릿 주짓수 부산 토너먼트",
+    "date": "2026-06-21",
+    "location": "부산 강서체육공원",
+    "organization": "Street Jiujitsu",
+    "link": "http://bjjmagazine.co.kr",
+    "category": "Open",
+    "region": "Busan"
+  },
+  {
+    "id": 5,
+    "title": "2026 대한주짓수회 청소년 국가대표 선발전",
+    "date": "2026-07-05",
+    "location": "대전 충무체육관",
+    "organization": "대한주짓수회",
+    "link": "https://jjak.or.kr",
+    "category": "Official",
+    "region": "Daejeon"
+  }
+]
