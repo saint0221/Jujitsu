@@ -111,6 +111,36 @@
   outline: none;
 }
 
+/* Category Tabs */
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: -2rem auto 3rem;
+  max-width: fit-content;
+  padding: 0.5rem;
+  border-radius: 99px;
+}
+
+.category-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 99px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-tabs button.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+}
+
 /* Filters */
 .schedule-section {
   padding-bottom: 5rem;
@@ -141,9 +171,9 @@
 }
 
 .filter-bar button.active {
-  background: var(--primary);
+  background: var(--surface-hover);
   border-color: var(--primary);
-  color: white;
+  color: var(--text);
 }
 
 /* Grid */
@@ -186,9 +216,14 @@
   color: #60a5fa;
 }
 
-.badge.open {
+.badge.seminar {
   background: rgba(168, 85, 247, 0.2);
   color: #c084fc;
+}
+
+.badge.openmat {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
 }
 
 .region-badge {
@@ -224,6 +259,30 @@
   color: var(--primary);
 }
 
+/* Instructor Info */
+.instructor-info {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.instructor-name {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.belt-badge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.belt-badge.black { background: #000; color: #fff; border: 1px solid #333; }
+.belt-badge.brown { background: #5d4037; color: #fff; }
+.belt-badge.purple { background: #6a1b9a; color: #fff; }
+
 .apply-btn {
   display: flex;
   align-items: center;
@@ -235,11 +294,15 @@
   padding: 1rem;
   border-radius: 1rem;
   font-weight: 600;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
+.apply-btn.seminar { background: #8b5cf6; }
+.apply-btn.openmat { background: #10b981; }
+
 .apply-btn:hover {
-  background: var(--primary-hover);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 
 /* Guide Section */
@@ -256,7 +319,7 @@
 }
 
 .header-icon {
-  color: var(--secondary);
+  color: #f59e0b;
 }
 
 .section-header h2 {
@@ -286,35 +349,17 @@
   right: -0.5rem;
 }
 
-.guide-card h4 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--text);
-}
-
-.guide-card p {
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem;
   color: var(--text-muted);
-  line-height: 1.6;
 }
 
-/* Footer */
 .footer {
   padding: 4rem 1.5rem;
   text-align: center;
   border-top: 1px solid var(--border);
-  margin-top: auto;
-}
-
-.footer p {
   color: var(--text-muted);
   font-size: 0.9rem;
-}
-
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 4rem;
-  color: var(--text-muted);
-  font-size: 1.2rem;
 }
